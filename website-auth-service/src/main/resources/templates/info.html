@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <style>
+        #layout-content > * {
+            text-align: center;
+        }
+
+        .avatar {
+            height: 160px;
+            max-width: 160px;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .buttons > * {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div layout:fragment="layout-content">
+    <img class="avatar img-responsive img-circle img-thumbnail"
+         src="http://exchangedownloads.smarttech.com/public/content/e2/e2ade940-25a4-4e64-b9e0-b5690f25638d/previews/medium/0001.png"
+         th:src="${avatar}"
+         alt="用户头像"/>
+    <h3>[[${userName}]]</h3>
+    <div class="buttons">
+        <form method="post" th:action="@{/logout}">
+            <input type="hidden" th:value="${_csrf}" />
+            <button type="submit" class="btn btn-default">退出登录</button>
+        </form>
+        <!--<a class="btn btn-info">个人信息</a>-->
+    </div>
+</div>
+</body>
+</html>

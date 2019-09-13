@@ -1,0 +1,67 @@
+body {
+    background: #f8f8f8;
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
+    font-size: 15px;
+    color: #1a1a1a;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    min-width: 500px;
+}
+
+#layout-container {
+    position: absolute;
+    text-align: center;
+    background-color: #fff;
+    width: 360px;
+    height: 360px;
+    margin: auto;
+    border-radius: 10px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 15px;
+}
+
+#layout-content {
+    text-align: left;
+}
+
+#snowflake {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.snowRoll {
+    position: absolute;
+    opacity: 0;
+    animation-name: mysnow;
+    animation-duration: 20s;
+    height: 80px;
+}
+
+.snowbox {
+    width: 25px;
+    height: 36px;
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+    top: -41px;
+}
+
+@keyframes mysnow {
+    0% {
+        bottom: 100%;
+    }
+    100% {
+        -webkit-transform: rotate(1080deg);
+    }
+}

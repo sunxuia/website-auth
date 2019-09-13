@@ -1,0 +1,60 @@
+website:
+  app:
+    id: 3
+    password: cxwo1bywni
+  social:
+    github:
+      filter-url: /login/github
+      redirect-local-uri: http://127.0.0.1:8200/login/github
+      client-id: 4b7c4d8da7668e66b851
+      user-authorization-uri: https://github.com/login/oauth/authorize
+      access-token-uri: https://github.com/login/oauth/access_token
+      user-info-uri: https://api.github.com/user
+    weibo:
+      filter-url: /login/weibo
+      redirect-local-uri: http://127.0.0.1:8200/login/weibo
+      client-id: 644336069
+      user-authorization-uri: https://api.weibo.com/oauth2/authorize
+      access-token-uri: https://api.weibo.com/oauth2/access_token
+      user-info-uri: https://api.weibo.com/2/users/show.json
+      url-prefix: https://weibo.com/
+    gitlab:
+      filter-url: /login/gitlab
+      redirect-local-uri: http://127.0.0.1:8200/login/gitlab
+      client-id: 7a4bad406607058c8e6dab50a83342a523c01321f01766a530ed5871383b9768
+      user-authorization-uri: https://gitlab.com/oauth/authorize
+      access-token-uri: https://gitlab.com/oauth/token
+      user-info-uri: https://gitlab.com/api/v4/user
+  services:
+    gateway-service:
+      redirect-urls:
+        - http://localhost:8400/
+  auth:
+    session-timeout-seconds: 1209600
+
+server:
+  port: 8200
+  servlet.session:
+    cookie:
+      name: authid
+      http-only: true
+    timeout: 300
+
+spring:
+  application:
+    name: auth-service
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+  redis:
+    host: redis-server
+    port: 6379
+    timeout: 3s
+    repositories.enable: false
+    database: 5
+
+logging:
+  level:
+    root: info
+    org.apache.coyote.http11.Http11InputBuffer: debug

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">website</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <link rel="icon" href="/favicon.ico">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/layout.css" th:href="@{/css/layout.css}" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/javascript-detect-element-resize/0.5.3/jquery.resize.min.js"></script>
+    <script src="https://cdn.bootcss.com/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/106/three.js"></script>
+    <script src="../static/js/gltfloader.js" th:src="@{/js/gltfloader.js}"></script>
+    <script src="../static/js/petal-foreground.js" th:src="@{/js/petal-foreground.js}"></script>
+    <script src="../static/js/petal-css-background.js" th:src="@{/js/petal-css-background.js}"></script>
+    <script src="../static/js/jquery.transit.js" th:src="@{/js/jquery.transit.js}"></script>
+</head>
+
+<body th:style="'background-image: url(' + @{'/image/bg' + ${T(net.sunxu.website.auth.service.util.HelpUtils).randomInteger(3)} + '.jpg'} + ')'"
+      style="background-image: url(../static/image/bg0.jpg)">
+<noscript>
+    <strong>请开启JavaScript 支持.</strong>
+</noscript>
+
+<div style="text-align: right;">
+    <button class="btn btn-link showFlower" style="color: white" onclick="showFlowers()">花瓣飞舞</button>
+</div>
+
+<div id="snowflake"
+     data-urls="../static/image/petal1.png,../static/image/petal2.png,../static/image/petal3.png,../static/image/petal4.png"
+     th:data-urls="@{/image/petal1.png}+','+@{/image/petal2.png}+','+@{/image/petal3.png}+','+@{/image/petal4.png}"></div>
+<div id="three-flower" data-urls="../static/js/petal.glb" th:data-urls="@{/js/petal.glb}"></div>
+
+<div id="layout-container">
+    <div id="layout-content" layout:fragment="layout-content"></div>
+</div>
+
+<th:block layout:fragment="script"></th:block>
+
+<script>
+    var layoutContent = $('#layout-content'), layoutContainer = $('#layout-container');
+
+    function adjustHeight() {
+        layoutContainer.height(layoutContent.height());
+    }
+
+    adjustHeight();
+    layoutContent.resize(adjustHeight);
+
+    var flowers = undefined;
+
+    function showFlowers() {
+        var shown;
+        if (flowers === undefined) {
+            flowers = new FlowerBackground();
+            flowers.startAnimation();
+            shown = true;
+        } else {
+            shown = flowers.triggerShown();
+        }
+        if (shown) {
+            $(".showFlower").text("隐藏动画");
+        } else {
+            $(".showFlower").text("花瓣飞舞");
+        }
+        triggerRun();
+    }
+
+    showFlowers();
+</script>
+</body>
+</html>

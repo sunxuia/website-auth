@@ -2,7 +2,6 @@ website:
   app:
     id: 3
     password: cxwo1bywni
-    examine-service-only: true
   social:
     github:
       filter-url: /login/github
@@ -26,6 +25,20 @@ website:
       user-authorization-uri: https://gitlab.com/oauth/authorize
       access-token-uri: https://gitlab.com/oauth/token
       user-info-uri: https://gitlab.com/api/v4/user
+  services:
+    gateway-service:
+      redirect-urls:
+        - http://localhost:8400/
+  auth:
+    session-timeout-seconds: 1209600
+
+server:
+  port: 8200
+  servlet.session:
+    cookie:
+      name: authid
+      http-only: true
+    timeout: 300
 
 spring:
   application:
@@ -34,5 +47,14 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
     cache: false
+  redis:
+    host: redis-server
+    port: 6379
+    timeout: 3s
+    repositories.enable: false
+    database: 5
 
-logging.level.root: info
+logging:
+  level:
+    root: info
+    org.apache.coyote.http11.Http11InputBuffer: debug

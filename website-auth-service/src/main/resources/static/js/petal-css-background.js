@@ -51,8 +51,9 @@ $(function () {
                 endPositionY = height + offset;
             }
             var duration = 10 * Math.sqrt(
-                window.innerHeight * window.innerHeight + window.innerWidth * window.innerHeight) + Math.random()
-                * 5000;
+                Math.pow(startPositionX - endPositionX, 2)
+                + Math.pow(startPositionY - endPositionY, 2))
+                + Math.random() * 5000;
             var randomOpacity = Math.random() * 0.5 + 0.5;
             var flake = createSnowBox();
             flake.css({

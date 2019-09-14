@@ -59,6 +59,18 @@ public class IndexController {
         return res;
     }
 
+    @PostMapping("/login")
+    public ModelAndView loginFailed(@RequestParam(required = false) String error) {
+        var res = new ModelAndView("login");
+        if (error != null) {
+            if (error.isEmpty()) {
+                error = "用户名或密码不对";
+            }
+            res.addObject("error", error);
+        }
+        return res;
+    }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/info")
     public ModelAndView info() {

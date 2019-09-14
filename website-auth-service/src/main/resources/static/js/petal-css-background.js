@@ -22,18 +22,33 @@ $(function () {
             }
             // 运动的轨迹
             var startPositionX, startPositionY, endPositionX, endPositionY;
-            if (Math.random() > 0.5) {
-                // 右上角上沿-> 左下角左沿
-                startPositionX = (Math.random() / 2 + 0.5) * window.innerWidth;
+            var width = window.innerWidth, height = window.innerHeight;
+            var offset = 30;
+            var random = Math.random();
+            if (random < 0.15) {
+                // 左上角上沿 -> 左上角左沿
+                startPositionX = Math.random() * 0.5 * width;
                 startPositionY = 0;
-                endPositionX = -30;
-                endPositionY = (Math.random() / 2 + 0.5) * window.innerHeight;
-            } else {
+                endPositionX = -offset;
+                endPositionY = Math.random() * 0.5 * height;
+            } else if (random < 0.5) {
+                // 右上角上沿-> 左下角左沿
+                startPositionX = (Math.random() * 0.5 + 0.5) * width;
+                startPositionY = 0;
+                endPositionX = -offset;
+                endPositionY = (Math.random() * 0.5 + 0.5) * height;
+            } else if (random < 0.85) {
                 // 右上角右沿 -> 左下角下沿
-                startPositionX = window.innerWidth;
-                startPositionY = Math.random() * window.innerHeight / 2;
-                endPositionX = (Math.random() / 2) * window.innerWidth;
-                endPositionY = window.innerHeight + 30;
+                startPositionX = width;
+                startPositionY = Math.random() * 0.5 * height;
+                endPositionX = Math.random() * 0.5 * width;
+                endPositionY = height + offset;
+            } else {
+                // 右下角右沿 -> 右下角下沿
+                startPositionX = width;
+                startPositionY = (Math.random() * 0.5 + 0.5) * height;
+                endPositionX = (Math.random() * 0.5 + 0.5) * width;
+                endPositionY = height + offset;
             }
             var duration = 10 * Math.sqrt(
                 window.innerHeight * window.innerHeight + window.innerWidth * window.innerHeight) + Math.random()

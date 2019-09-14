@@ -118,7 +118,7 @@ FlowerBackground.prototype = {
                 // mesh.castShadow = true;
                 // mesh.receiveShadow = true;
 
-                mesh.scale.set(15, 15, 15);
+                mesh.scale.set(12, 12, 12);
                 _this.resetMesh(mesh);
                 scene.add(mesh);
                 meshes.push(mesh);

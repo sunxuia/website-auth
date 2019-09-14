@@ -27,10 +27,10 @@ $(function () {
             var random = Math.random();
             if (random < 0.15) {
                 // 左上角上沿 -> 左上角左沿
-                startPositionX = Math.random() * 0.5 * width;
+                startPositionX = (0.1 + Math.random() * 0.4) * width;
                 startPositionY = 0;
                 endPositionX = -offset;
-                endPositionY = Math.random() * 0.5 * height;
+                endPositionY = (0.1 + Math.random() * 0.4) * height;
             } else if (random < 0.5) {
                 // 右上角上沿-> 左下角左沿
                 startPositionX = (Math.random() * 0.5 + 0.5) * width;
@@ -46,8 +46,8 @@ $(function () {
             } else {
                 // 右下角右沿 -> 右下角下沿
                 startPositionX = width;
-                startPositionY = (Math.random() * 0.5 + 0.5) * height;
-                endPositionX = (Math.random() * 0.5 + 0.5) * width;
+                startPositionY = (Math.random() * 0.4 + 0.5) * height;
+                endPositionX = (Math.random() * 0.4 + 0.5) * width;
                 endPositionY = height + offset;
             }
             var duration = 10 * Math.sqrt(

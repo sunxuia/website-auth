@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <style>
+        #layout-content > * {
+            text-align: center;
+        }
+
+        .avatar {
+            height: 160px;
+            max-width: 160px;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .buttons > * {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div layout:fragment="layout-content">
+    <div style="text-align: center;">
+        <h3>发生了错误</h3>
+        <p th:text="${status} + ' : ' + ${error}"></p>
+        <p>[[${message}]]</p>
+        <button class="btn btn-link" onclick="history.go(-1);" style="margin-bottom:20px">返回上一页</button>
+    </div>
+</div>
+</body>
+</html>

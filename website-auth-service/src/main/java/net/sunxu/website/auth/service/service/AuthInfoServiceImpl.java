@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import net.sunxu.website.app.feignclient.AppFeignClient;
@@ -29,8 +30,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.Session;
+import org.springframework.session.SessionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -60,8 +61,8 @@ public class AuthInfoServiceImpl implements AuthInfoService {
     @Qualifier("serviceJwtParser")
     private JwtParser parser;
 
-    @Autowired
-    private FindByIndexNameSessionRepository sessionRepository;
+    @Resource
+    private SessionRepository sessionRepository;
 
     @Autowired
     private StringRedisTemplate redisTemplate;

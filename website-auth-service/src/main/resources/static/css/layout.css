@@ -62,6 +62,6 @@ body {
         bottom: 100%;
     }
     100% {
-        -webkit-transform: rotate(1080deg);
+        transform: rotate(1080deg);
     }
 }

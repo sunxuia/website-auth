@@ -104,7 +104,20 @@ public class AuthInfoServiceImpl implements AuthInfoService {
 
     @Override
     public UserTokenDTO createUserToken(String serviceName, String code) {
-        var session = getSessionByAuthCode(code);
+        String sessionId = redisTemplate.opsForValue().get(wrapAuthCode(code));
+        if (sessionId == null) {
+            throw ServiceException.newException("code 过期.");
+        }
+        var session = sessionRepository.findById(sessionId);
+        if (session == null) {
+            throw ServiceException.newException("用户登录已过期");
+        }
+        var dto = createUserTokenDTO(session, serviceName);
+        redisTemplate.delete(code);
+        return dto;
+    }
+
+    private UserTokenDTO createUserTokenDTO(Session session, String serviceName) {
         var context = (SecurityContext) session.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
         var user = Optional.ofNullable(context)
                 .map(SecurityContext::getAuthentication)
@@ -136,8 +149,8 @@ public class AuthInfoServiceImpl implements AuthInfoService {
         dto.setToken(tokens.get("accessToken"));
         dto.setRefreshToken(tokens.get("refreshToken"));
         dto.setAuthId(authId);
-        dto.setTokenExpire(sessionTimeoutSeconds * 500L - 60_000L);
-        dto.setRefreshTokenExpire(sessionTimeoutSeconds * 1000L - 60_000L);
+        dto.setTokenExpire(System.currentTimeMillis() + sessionTimeoutSeconds * 500L - 60_000L);
+        dto.setRefreshTokenExpire(System.currentTimeMillis() + sessionTimeoutSeconds * 1000L - 60_000L);
 
         var serviceNames = (Set<String>) session.getAttribute(GATEWAY_SERVICES_SESSION_ATTR_NAME);
         if (serviceNames == null) {
@@ -147,24 +160,9 @@ public class AuthInfoServiceImpl implements AuthInfoService {
         session.setAttribute(GATEWAY_SERVICES_SESSION_ATTR_NAME, serviceNames);
         sessionRepository.save(session);
 
-        redisTemplate.delete(code);
-
         log.info("Access {}({}) from {}, authId {}.", user.getName(), user.getId(), serviceName, authId);
 
         return dto;
-
-    }
-
-    private Session getSessionByAuthCode(String authCode) {
-        String sessionId = redisTemplate.opsForValue().get(wrapAuthCode(authCode));
-        if (sessionId == null) {
-            throw ServiceException.newException("code 过期.");
-        }
-        var session = sessionRepository.findById(sessionId);
-        if (session == null) {
-            throw ServiceException.newException("用户登录已过期");
-        }
-        return session;
     }
 
     private String getAuthId(Session session) {
@@ -180,7 +178,11 @@ public class AuthInfoServiceImpl implements AuthInfoService {
     public UserTokenDTO refreshToken(String serviceName, String refreshToken) {
         var claims = parser.parseClaimsJws(refreshToken).getBody();
         String authId = claims.get("authId", String.class);
-        return createUserToken(serviceName, authId);
+        var session = sessionRepository.findById(authId);
+        if (session == null) {
+            throw ServiceException.newException("用户登录已过期");
+        }
+        return createUserTokenDTO(session, serviceName);
     }
 
     @Override

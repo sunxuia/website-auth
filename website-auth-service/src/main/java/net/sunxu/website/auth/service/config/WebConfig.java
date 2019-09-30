@@ -51,7 +51,7 @@ public class WebConfig implements WebMvcConfigurer {
         for (ServiceProperties value : serverProperties.values()) {
             for (String redirectUrl : value.getRedirectUrls()) {
                 var uri = URI.create(redirectUrl);
-                String path = uri.getScheme() + "://" + uri.getHost() + ":" + uri.getPort() + "/**";
+                String path = uri.getScheme() + "://" + uri.getHost() + ":" + uri.getPort();
                 if (allowed.add(path)) {
                     config.addAllowedOrigin(path);
                 }

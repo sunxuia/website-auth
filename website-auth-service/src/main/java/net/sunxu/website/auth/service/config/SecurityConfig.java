@@ -77,7 +77,7 @@ public class SecurityConfig extends WebsiteSecurityConfig {
                         "/css/**",
                         "/font/**",
                         "/image/**",
-                        "/auth"
+                        "/auth/**"
                 ).permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(jwtAuthenticationTokenFilter(), BasicAuthenticationFilter.class)

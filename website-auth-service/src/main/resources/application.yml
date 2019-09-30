@@ -29,6 +29,9 @@ website:
     gateway-service:
       redirect-urls:
         - http://localhost:8400/
+        - http://127.0.0.1:8400/
+        - http://localhost:8080/
+        - http://127.0.0.1:8080/
   auth:
     session-timeout-seconds: 1209600
 

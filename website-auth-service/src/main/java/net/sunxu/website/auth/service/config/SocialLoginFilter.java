@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -71,6 +72,12 @@ public class SocialLoginFilter extends AbstractAuthenticationProcessingFilter {
     @Getter
     @Setter
     private long stateExpire = 5 * 60 * 1000L;
+
+    @Autowired
+    @Override
+    public void setAuthenticationSuccessHandler(AuthenticationSuccessHandler successHandler) {
+        super.setAuthenticationSuccessHandler(successHandler);
+    }
 
     public SocialLoginFilter(SocialType socialType, ClientResource resource) {
         super(resource.getFilterUrl());

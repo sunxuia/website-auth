@@ -39,16 +39,22 @@ public class IndexController {
 
     @GetMapping("/")
     @ResponseBody
-    public void index(HttpServletResponse response) throws IOException {
-        response.sendRedirect("/login");
+    public void index(HttpServletResponse response, Authentication authentication) throws IOException {
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetailsImpl) {
+            response.sendRedirect("/info");
+        } else {
+            response.sendRedirect("/login");
+        }
     }
 
     @GetMapping("/login")
     public ModelAndView login(Authentication authentication,
             @RequestParam(required = false) String error,
-            @RequestParam(required = false) Boolean logout) {
+            @RequestParam(required = false) Boolean logout,
+            HttpServletResponse response) throws IOException {
         if (authentication != null && authentication.getPrincipal() instanceof UserDetailsImpl) {
-            return new ModelAndView("redirect:/info");
+            response.sendRedirect("/info");
+            return null;
         }
         var res = new ModelAndView("login");
         if (error != null) {
